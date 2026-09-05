@@ -1,4 +1,4 @@
-      <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -20,6 +20,8 @@
       --primary: #4a6b82;
       --accent: #28a745;
       --progress-bg: #deebf4;
+      --danger: #dc3545;
+      --gold: #f39c12;
     }
     body.dark {
       --bg: #101c24;
@@ -28,52 +30,117 @@
       --primary: #345063;
       --accent: #2ecc71;
       --progress-bg: #233745;
+      --danger: #e74c3c;
+      --gold: #f1c40f;
     }
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); padding-bottom: 75px; }
-    .screen { display: none; padding: 20px; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 80px; }
+    .screen { display: none; padding: 20px; animation: fadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
     .active { display: block; }
-    input, button { width: 100%; padding: 13px; margin: 8px 0; border-radius: 14px; border: 1px solid #ccc; font-size: 15px; }
-    button { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; transition: opacity 0.2s; }
-    button:active { opacity: 0.85; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Top Bar & Drawer */
+    /* Button Styling & Micro-Animations */
+    button {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border-radius: 14px;
+      border: none;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      background: var(--primary);
+      color: white;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    button:active {
+      transform: scale(0.96) translateY(2px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    button:hover {
+      filter: brightness(1.06);
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border-radius: 14px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(74, 107, 130, 0.2);
+    }
+
+    /* Cards & Badges */
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .drawer { display: none; position: fixed; top: 0; left: 0; width: 270px; height: 100%; background: var(--card-bg); box-shadow: 2px 0 12px rgba(0,0,0,0.3); padding: 24px; z-index: 1000; }
-    
-    /* Workout & Progress Cards */
-    .card-workout { background: var(--primary); color: white; border-radius: 22px; padding: 18px; display: flex; align-items: center; gap: 15px; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(74,107,130,0.25); }
-    .card-workout button { background: white; color: var(--primary); border-radius: 20px; padding: 7px 22px; width: auto; font-size: 14px; }
+    .drawer { display: none; position: fixed; top: 0; left: 0; width: 275px; height: 100%; background: var(--card-bg); box-shadow: 2px 0 15px rgba(0,0,0,0.3); padding: 24px; z-index: 1000; animation: slideIn 0.25s ease-out; }
+    @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+    .card-workout { background: var(--primary); color: white; border-radius: 22px; padding: 18px; display: flex; align-items: center; gap: 15px; margin-bottom: 14px; box-shadow: 0 6px 16px rgba(74,107,130,0.25); }
+    .card-workout button { background: white; color: var(--primary); border-radius: 20px; padding: 8px 22px; width: auto; font-size: 14px; box-shadow: none; }
     .card-progress { background: var(--progress-bg); border-radius: 22px; padding: 18px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-    
-    /* Personal Details Grid */
-    .profile-card { background: var(--card-bg); border-radius: 20px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+    .profile-card { background: var(--card-bg); border-radius: 20px; padding: 16px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.06); }
     .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
     .stat-pill { background: var(--bg); padding: 10px 12px; border-radius: 12px; font-size: 13px; }
-    .stat-pill b { display: block; font-size: 15px; color: var(--primary); }
+    .stat-pill b { display: block; font-size: 15px; color: var(--primary); margin-top: 2px; }
 
-    /* Batches */
     .batches-row { display: flex; gap: 10px; justify-content: space-between; margin-bottom: 15px; }
-    .batch-badge { flex: 1; padding: 16px 6px; text-align: center; border-radius: 18px; font-size: 13px; font-weight: 600; color: #111; }
+    .batch-badge { flex: 1; padding: 16px 6px; text-align: center; border-radius: 18px; font-size: 13px; font-weight: 600; color: #111; transition: transform 0.2s; }
+    .batch-badge:active { transform: scale(0.95); }
 
-    /* Live Session Banner */
-    .live-banner { background: #e8f5e9; border: 2px solid #28a745; border-radius: 18px; padding: 16px; text-align: center; margin-bottom: 16px; }
-    .btn-live-pulse { background: #28a745; color: white; animation: pulse 1.8s infinite; font-size: 16px; margin-top: 8px; }
-    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+    /* Animated Live Pulsing Button */
+    .btn-live-pulse {
+      background: linear-gradient(135deg, #28a745, #218838);
+      color: white;
+      font-size: 16px;
+      animation: liveGlow 1.6s infinite alternate;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+    }
+    @keyframes liveGlow {
+      0% { box-shadow: 0 0 6px rgba(40, 167, 69, 0.4); transform: scale(1); }
+      100% { box-shadow: 0 0 18px rgba(40, 167, 69, 0.9); transform: scale(1.02); }
+    }
+
+    /* Lock Screen for Non-Paid Users */
+    .lock-box {
+      background: #fff3cd;
+      border: 2px dashed #ffeeba;
+      color: #856404;
+      padding: 18px;
+      border-radius: 18px;
+      text-align: center;
+      margin-top: 15px;
+    }
+    body.dark .lock-box {
+      background: #332701;
+      border-color: #664d03;
+      color: #ffda6a;
+    }
 
     /* Bottom Navigation */
-    .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 62px; background: var(--primary); display: flex; justify-content: space-around; align-items: center; color: white; z-index: 99; }
-    .nav-item { text-align: center; font-size: 11px; cursor: pointer; opacity: 0.8; }
-    .nav-item.active-nav { opacity: 1; font-weight: bold; }
+    .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: var(--primary); display: flex; justify-content: space-around; align-items: center; color: white; z-index: 99; box-shadow: 0 -3px 12px rgba(0,0,0,0.15); }
+    .nav-item { text-align: center; font-size: 11px; cursor: pointer; opacity: 0.75; transition: all 0.2s; }
+    .nav-item.active-nav { opacity: 1; font-weight: bold; transform: translateY(-2px); }
     .nav-item i { font-size: 19px; display: block; margin-bottom: 3px; }
   </style>
 </head>
 <body>
 
-  <!-- Sign Up Screen (Only shown if not previously logged in) -->
+  <!-- Sign Up Screen -->
   <div id="authScreen" class="screen">
     <h2 style="margin-bottom: 6px; font-size: 26px;">Create Account</h2>
-    <p style="color: gray; margin-bottom: 14px; font-size: 14px;">Fill details once to join batches & live classes</p>
+    <p style="color: gray; margin-bottom: 14px; font-size: 14px;">Fill details once to access batches & live workouts</p>
     
     <input type="text" id="uName" placeholder="Full Name" required />
     <input type="tel" id="uPhone" placeholder="WhatsApp / Phone Number" required />
@@ -84,7 +151,9 @@
       <input type="number" id="uHeight" placeholder="Height (cm)" required />
     </div>
     <input type="text" id="uAddress" placeholder="Village / District / State" required />
-    <button onclick="handleLogin()" id="btnStart" style="margin-top: 14px; padding: 15px;">Start Training</button>
+    <button onclick="handleLogin()" id="btnStart" style="margin-top: 14px; padding: 15px;">
+      <i class="fas fa-play"></i> Start Training
+    </button>
   </div>
 
   <!-- Side Drawer Menu -->
@@ -93,10 +162,10 @@
     <button onclick="openWhatsApp()" style="background:#25D366; margin-bottom:10px;"><i class="fab fa-whatsapp"></i> WhatsApp Help</button>
     <button onclick="toggleTheme()" style="background:#343a40; margin-bottom:10px;"><i class="fas fa-moon"></i> Toggle Dark/Light</button>
     <div id="hostMenuSec" style="display:none;">
-      <button onclick="showClientsList()" style="background:#007bff; margin-bottom:10px;"><i class="fas fa-users"></i> Registered Clients List</button>
+      <button onclick="showClientsList()" style="background:#007bff; margin-bottom:10px;"><i class="fas fa-users-cog"></i> Manage Clients & Access</button>
     </div>
-    <button onclick="logoutUser()" style="background:#dc3545; margin-top:15px;"><i class="fas fa-sign-out-alt"></i> Logout / Switch User</button>
-    <button onclick="closeDrawer()" style="background:#6c757d; margin-top:10px;">Close Menu</button>
+    <button onclick="logoutUser()" style="background:var(--danger); margin-top:15px;"><i class="fas fa-sign-out-alt"></i> Logout / Switch User</button>
+    <button onclick="closeDrawer()" style="background:#6c757d; margin-top:10px;"><i class="fas fa-times"></i> Close Menu</button>
   </div>
 
   <!-- Main Profile Screen -->
@@ -106,21 +175,23 @@
       <span id="roleBadge" style="font-size:12px; padding:4px 10px; border-radius:10px; background:#deebf4; color:#314351; font-weight:600;">Client</span>
     </div>
 
-    <!-- Live Class Alert Banner (Appears when Host starts class) -->
-    <div id="liveBanner" class="live-banner" style="display: none;">
-      <b style="color: #28a745; font-size: 16px;"><i class="fas fa-circle" style="color:red; font-size:12px;"></i> LIVE CLASS IS IN PROGRESS</b>
+    <!-- Live Class Notification Banner (Only visible if user has purchased a batch) -->
+    <div id="liveBanner" style="display: none; background: #e8f5e9; border: 2px solid #28a745; border-radius: 18px; padding: 16px; text-align: center; margin-bottom: 16px;">
+      <b style="color: #28a745; font-size: 16px;"><i class="fas fa-circle" style="color:red; font-size:12px;"></i> LIVE CLASS IS STREAMING NOW</b>
       <p id="liveBannerText" style="font-size: 14px; margin: 4px 0 8px 0; color: #333;">Class is starting right now!</p>
-      <button onclick="joinLiveClassNow()" class="btn-live-pulse">🔴 Join Live Class Now</button>
+      <button onclick="joinLiveClassNow()" class="btn-live-pulse">
+        <i class="fas fa-video"></i> Join Live Class
+      </button>
     </div>
 
     <h1 id="welcomeText" style="font-size: 25px; font-weight: 800;">Welcome!</h1>
     <p style="color: gray; margin-bottom: 12px; font-size: 14px;">Let's get moving today.</p>
 
-    <!-- Detailed Personal Information Card -->
+    <!-- Health Stats Card -->
     <div class="profile-card">
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-weight:bold; font-size:14px; color:gray;">YOUR HEALTH PROFILE</span>
-        <i class="fas fa-user-check" style="color:var(--primary);"></i>
+        <span style="font-weight:bold; font-size:14px; color:gray;">HEALTH PROFILE</span>
+        <span id="accessStatusBadge" style="font-size:11px; padding:3px 8px; border-radius:8px; background:#ffd700; color:#111; font-weight:bold;">No Active Batch</span>
       </div>
       <div class="details-grid">
         <div class="stat-pill">Weight<b id="pWeight">-- kg</b></div>
@@ -139,7 +210,7 @@
       <div>
         <div style="font-size:12px; opacity:0.85;">Today's Workout:</div>
         <div style="font-size:18px; font-weight:bold;">30 Min HIIT</div>
-        <button onclick="switchTab('liveScreen')" style="margin-top:5px;">Start</button>
+        <button onclick="switchTab('liveScreen')">Start</button>
       </div>
     </div>
 
@@ -149,9 +220,9 @@
       <div>
         <div style="font-size:13px; font-weight:600;">Weekly Progress:</div>
         <div style="font-size:16px; font-weight:bold;">5/7 Days Active</div>
-        <button onclick="alert('You are on a 5-day active streak! Keep up the momentum!')" style="padding:5px 14px; font-size:12px; width:auto; margin-top:5px;">View Details</button>
+        <button onclick="alert('Great consistency! Keep working hard!')" style="padding:5px 14px; font-size:12px; width:auto; margin-top:5px; background:var(--primary); color:white;">View Details</button>
       </div>
-      <i class="fas fa-trophy" style="font-size:32px; color:#f39c12;"></i>
+      <i class="fas fa-trophy" style="font-size:32px; color:var(--gold);"></i>
     </div>
 
     <h3 style="margin-bottom:12px; font-size: 17px;">Your Batches</h3>
@@ -169,16 +240,30 @@
       <h3>Live Studio</h3>
     </div>
     
-    <div style="margin-top:15px; padding:24px; background:var(--card-bg); border-radius:20px; text-align:center; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+    <div style="margin-top:15px; padding:24px; background:var(--card-bg); border-radius:20px; text-align:center; box-shadow:0 3px 12px rgba(0,0,0,0.06);">
       <i class="fas fa-video" style="font-size:55px; color:var(--primary);"></i>
       <p id="liveTimingDisplay" style="margin:16px 0; font-size:18px; font-weight:bold;">Checking schedule...</p>
       
-      <!-- Instant Live Join Button for Clients -->
-      <button id="btnJoinLive" onclick="joinLiveClassNow()" class="btn-live-pulse" style="display:none; margin-bottom:12px;">
-        <i class="fas fa-play"></i> Join Live Class Now
-      </button>
+      <!-- Unlocked Live Button (Only if purchased or Host) -->
+      <div id="unlockedLiveBox" style="display:none;">
+        <button id="btnJoinLive" onclick="joinLiveClassNow()" class="btn-live-pulse" style="display:none; margin-bottom:12px;">
+          <i class="fas fa-play"></i> Join Live Class Now
+        </button>
+      </div>
 
-      <button onclick="openWhatsApp()" style="background:#25D366;"><i class="fab fa-whatsapp"></i> Chat with Trainer on WhatsApp</button>
+      <!-- Locked Warning (Shown when batch is not yet purchased) -->
+      <div id="lockedLiveBox" class="lock-box">
+        <i class="fas fa-lock" style="font-size:32px; margin-bottom:8px;"></i>
+        <h4>Live Class Locked</h4>
+        <p style="font-size:13px; margin:6px 0 12px 0;">Live workouts are exclusive to enrolled members. Purchase any batch for ₹500 to unlock full live access.</p>
+        <button onclick="switchTab('batchScreen')" style="background:#28a745;">
+          <i class="fas fa-shopping-cart"></i> Browse Batches (₹500)
+        </button>
+      </div>
+
+      <button onclick="openWhatsApp()" style="background:#25D366; margin-top:12px;">
+        <i class="fab fa-whatsapp"></i> Chat with Trainer on WhatsApp
+      </button>
     </div>
   </div>
 
@@ -190,12 +275,12 @@
     </div>
     <div id="batchList" style="margin-top:10px;"></div>
     <div id="hostAddBatch" style="display:none; margin-top:20px;">
-      <input type="text" id="newBatchInput" placeholder="Enter Batch Name (e.g. Morning Fat Loss)" />
-      <button onclick="addBatch()">+ Add New Batch</button>
+      <input type="text" id="newBatchInput" placeholder="Batch Name (e.g. Morning Fat Loss)" />
+      <button onclick="addBatch()"><i class="fas fa-plus"></i> Add New Batch</button>
     </div>
   </div>
 
-  <!-- Host Schedule & Live Class Control Screen -->
+  <!-- Host Schedule & Live Control Screen -->
   <div id="scheduleScreen" class="screen">
     <div class="top-bar">
       <i class="fas fa-bars" style="font-size:24px; cursor:pointer;" onclick="openDrawer()"></i>
@@ -203,20 +288,20 @@
     </div>
 
     <div style="background:var(--card-bg); padding:18px; border-radius:18px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-      <h4>1. Schedule Timing</h4>
-      <p style="color:gray; font-size:12px; margin-bottom:8px;">Updates class time for everyone:</p>
+      <h4>1. Class Timing</h4>
+      <p style="color:gray; font-size:12px; margin-bottom:8px;">Updates schedule across all client phones:</p>
       <input type="text" id="scheduleInput" placeholder="e.g. Daily 6:30 AM IST" />
-      <button onclick="saveSchedule()">Update Schedule</button>
+      <button onclick="saveSchedule()"><i class="fas fa-clock"></i> Update Schedule</button>
     </div>
 
     <div style="background:var(--card-bg); padding:18px; border-radius:18px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-      <h4>2. Start / End Live Class</h4>
-      <p style="color:gray; font-size:12px; margin-bottom:8px;">Paste Meet/Zoom/YouTube Live URL:</p>
+      <h4>2. Broadcast Live Class</h4>
+      <p style="color:gray; font-size:12px; margin-bottom:8px;">Paste Meet/Zoom/YouTube Live Link:</p>
       <input type="url" id="liveUrlInput" placeholder="https://meet.google.com/xxx-xxxx-xxx" />
       <button onclick="startLiveClass()" style="background:#28a745; margin-bottom:8px;">
-        <i class="fas fa-broadcast-tower"></i> Start Class & Alert All Phones
+        <i class="fas fa-broadcast-tower"></i> Start Class (Alert Enrolled Users)
       </button>
-      <button onclick="endLiveClass()" style="background:#dc3545;">
+      <button onclick="endLiveClass()" style="background:var(--danger);">
         <i class="fas fa-stop-circle"></i> End Live Class
       </button>
     </div>
@@ -231,7 +316,7 @@
   </div>
 
   <script>
-    // Firebase Configuration
+    // Configured Firebase project credentials
     const firebaseConfig = {
       apiKey: "AIzaSyAY9m2GzbB75aKrtsVfuH_AcdOhGw3CmX0",
       authDomain: "fit-with-kulbeer-de286.firebaseapp.com",
@@ -248,13 +333,14 @@
 
     let currentUser = null;
     let isHost = false;
+    let hasPaidBatch = false;
     let currentLiveUrl = "";
 
-    // 1. AUTO-LOGIN ON OPEN (Checks Phone Memory)
+    // Auto-Login Setup
     window.addEventListener('DOMContentLoaded', () => {
-      const savedUser = localStorage.getItem('fit_user_session');
-      if (savedUser) {
-        currentUser = JSON.parse(savedUser);
+      const saved = localStorage.getItem('fit_user_session');
+      if (saved) {
+        currentUser = JSON.parse(saved);
         setupSession(currentUser);
       } else {
         document.getElementById('authScreen').classList.add('active');
@@ -262,9 +348,9 @@
     });
 
     function setupSession(user) {
-      // Check if Host
       if (user.email === "Deepxmaan01@gmail.com" && user.password === "Deepmaan01") {
         isHost = true;
+        hasPaidBatch = true;
         document.getElementById('navSchedule').style.display = 'block';
         document.getElementById('hostMenuSec').style.display = 'block';
         document.getElementById('hostAddBatch').style.display = 'block';
@@ -272,14 +358,12 @@
         document.getElementById('roleBadge').style.background = "#ffd700";
       }
 
-      // Populate Detailed Profile Data
       document.getElementById('welcomeText').innerText = "Welcome, " + user.name + "!";
       document.getElementById('pWeight').innerText = user.weight ? `${user.weight} kg` : "--";
       document.getElementById('pHeight').innerText = user.height ? `${user.height} cm` : "--";
       document.getElementById('pPhone').innerText = user.phone || "--";
       document.getElementById('pLocation').innerText = user.address || "--";
 
-      // Calculate BMI
       if (user.weight && user.height) {
         const hMeters = parseFloat(user.height) / 100;
         const bmi = (parseFloat(user.weight) / (hMeters * hMeters)).toFixed(1);
@@ -294,12 +378,24 @@
       document.getElementById('mainScreen').classList.add('active');
       document.getElementById('bottomNav').style.display = 'flex';
 
-      listenToDatabase();
+      listenToDatabase(user.email);
     }
 
-    // 2. REALTIME LISTENERS (Batches & Live Streaming Class)
-    function listenToDatabase() {
-      // Real-time Schedule & Live Session Link
+    function listenToDatabase(email) {
+      // 1. Sync User's Purchase / Access Status in Realtime
+      if (!isHost) {
+        db.collection("clients").doc(email).onSnapshot((doc) => {
+          if (doc.exists) {
+            const data = doc.data();
+            hasPaidBatch = data.hasAccess === true || (data.purchasedBatches && data.purchasedBatches.length > 0);
+            updateAccessUI();
+          }
+        });
+      } else {
+        updateAccessUI();
+      }
+
+      // 2. Real-time Live Class Broadcast Listener
       db.collection("settings").doc("schedule").onSnapshot((doc) => {
         if (doc.exists) {
           const data = doc.data();
@@ -307,9 +403,11 @@
           
           if (data.isLive && data.liveUrl) {
             currentLiveUrl = data.liveUrl;
-            document.getElementById('liveBanner').style.display = 'block';
-            document.getElementById('btnJoinLive').style.display = 'block';
-            document.getElementById('liveBannerText').innerText = `Class is ON: ${data.timing || 'Workout Session'}`;
+            if (hasPaidBatch || isHost) {
+              document.getElementById('liveBanner').style.display = 'block';
+              document.getElementById('btnJoinLive').style.display = 'block';
+              document.getElementById('liveBannerText').innerText = `Class is ON: ${data.timing || 'Workout Session'}`;
+            }
           } else {
             currentLiveUrl = "";
             document.getElementById('liveBanner').style.display = 'none';
@@ -318,7 +416,7 @@
         }
       });
 
-      // Real-time Batches
+      // 3. Real-time Batches Listener
       db.collection("batches").onSnapshot((snapshot) => {
         const container = document.getElementById('batchList');
         container.innerHTML = "";
@@ -337,8 +435,8 @@
               </div>
               <div>
                 ${isHost 
-                  ? `<button onclick="deleteBatch('${id}')" style="background:#dc3545; padding:6px 14px; font-size:12px; width:auto; border-radius:8px;">Delete</button>` 
-                  : `<button onclick="buyBatch('${data.name}')" style="background:#28a745; padding:7px 14px; font-size:12px; width:auto; border-radius:8px;">Enroll ₹500</button>`}
+                  ? `<button onclick="deleteBatch('${id}')" style="background:var(--danger); padding:6px 14px; font-size:12px; width:auto; border-radius:8px;"><i class="fas fa-trash"></i></button>` 
+                  : `<button onclick="buyBatch('${data.name}')" style="background:#28a745; padding:7px 14px; font-size:12px; width:auto; border-radius:8px;"><i class="fas fa-shopping-cart"></i> Buy ₹500</button>`}
               </div>
             </div>
           `;
@@ -346,7 +444,31 @@
       });
     }
 
-    // 3. LOGIN & SIGN-UP HANDLER
+    function updateAccessUI() {
+      const badge = document.getElementById('accessStatusBadge');
+      const unlockedBox = document.getElementById('unlockedLiveBox');
+      const lockedBox = document.getElementById('lockedLiveBox');
+
+      if (hasPaidBatch || isHost) {
+        badge.innerText = isHost ? "Admin / Host" : "Enrolled Member";
+        badge.style.background = "#28a745";
+        badge.style.color = "white";
+        unlockedBox.style.display = 'block';
+        lockedBox.style.display = 'none';
+        if (currentLiveUrl) {
+          document.getElementById('liveBanner').style.display = 'block';
+          document.getElementById('btnJoinLive').style.display = 'block';
+        }
+      } else {
+        badge.innerText = "No Active Batch";
+        badge.style.background = "#ffd700";
+        badge.style.color = "#111";
+        unlockedBox.style.display = 'none';
+        lockedBox.style.display = 'block';
+        document.getElementById('liveBanner').style.display = 'none';
+      }
+    }
+
     async function handleLogin() {
       const name = document.getElementById('uName').value.trim();
       const phone = document.getElementById('uPhone').value.trim();
@@ -362,16 +484,15 @@
       }
 
       const userData = { name, phone, email, password, weight, height, address };
-
-      // Save credentials in Phone Storage for permanent Auto-Login
       localStorage.setItem('fit_user_session', JSON.stringify(userData));
 
-      // Save user to cloud Firestore
       try {
         await db.collection("clients").doc(email).set({
           ...userData,
+          hasAccess: false,
+          purchasedBatches: [],
           registeredAt: new Date().toISOString()
-        });
+        }, { merge: true });
       } catch (e) {
         console.error("Firestore sync note:", e);
       }
@@ -386,24 +507,24 @@
       }
     }
 
-    // 4. HOST LIVE CLASS CONTROLS
+    // Live Class Host Controls
     async function startLiveClass() {
       const url = document.getElementById('liveUrlInput').value.trim();
       const timing = document.getElementById('scheduleInput').value.trim();
 
       if (!url) {
-        alert("Please enter a meeting link (Google Meet / Zoom / YouTube Live)!");
+        alert("Please paste a live meeting link (Google Meet / Zoom / YouTube)!");
         return;
       }
 
       await db.collection("settings").doc("schedule").set({
-        timing: timing || "Live Class Streaming",
+        timing: timing || "Live Workout Session",
         liveUrl: url,
         isLive: true,
         startedAt: new Date().toISOString()
       }, { merge: true });
 
-      alert("Live class started! All connected users now have a 'Join Live Class' button on their screen.");
+      alert("Live class started! Alert is now active for all enrolled clients.");
     }
 
     async function endLiveClass() {
@@ -411,14 +532,16 @@
         isLive: false,
         liveUrl: ""
       });
-      alert("Live class has been marked as ended.");
+      alert("Live class ended.");
     }
 
     function joinLiveClassNow() {
+      if (!hasPaidBatch && !isHost) {
+        alert("Please purchase a batch to join the live session.");
+        return;
+      }
       if (currentLiveUrl) {
         window.open(currentLiveUrl, "_blank");
-      } else {
-        alert("No active live session link found.");
       }
     }
 
@@ -426,11 +549,11 @@
       const val = document.getElementById('scheduleInput').value.trim();
       if (val) {
         await db.collection("settings").doc("schedule").set({ timing: val }, { merge: true });
-        alert("Timing updated for all users!");
+        alert("Schedule updated!");
       }
     }
 
-    // Batches CRUD
+    // Batch Functions
     async function addBatch() {
       const val = document.getElementById('newBatchInput').value.trim();
       if (val) {
@@ -445,17 +568,18 @@
       }
     }
 
-    function buyBatch(batchName) {
-      alert(`To buy ${batchName}, please pay ₹500 to 80825-28311.`);
-      openWhatsApp();
+    // Purchase Batch Flow (Directs to WhatsApp)
+    async function buyBatch(batchName) {
+      alert(`To activate your ${batchName} membership, please send ₹500 to 80825-28311 on WhatsApp. Your account will unlock automatically upon confirmation!`);
+      window.open(`https://wa.me/918082528311?text=Hello%20Kulbeer%2C%20I%20want%20to%20buy%20the%20${encodeURIComponent(batchName)}%20batch%20for%20Rs.500.%20My%20Email%20is:%20${currentUser ? currentUser.email : ''}`, "_blank");
     }
 
-    // Host View All Clients
+    // Host View & Toggle Client Access
     async function showClientsList() {
       closeDrawer();
       switchTab('liveScreen');
       const container = document.getElementById('liveScreen');
-      container.innerHTML = "<div class='top-bar'><i class='fas fa-arrow-left' style='font-size:22px;' onclick='location.reload()'></i><h3>Registered Clients</h3></div>";
+      container.innerHTML = "<div class='top-bar'><i class='fas fa-arrow-left' style='font-size:22px; cursor:pointer;' onclick='location.reload()'></i><h3>Manage Client Access</h3></div>";
       const snap = await db.collection("clients").get();
       if (snap.empty) {
         container.innerHTML += "<p>No clients registered yet.</p>";
@@ -463,18 +587,29 @@
       }
       snap.forEach(doc => {
         const u = doc.data();
+        const active = u.hasAccess === true;
         container.innerHTML += `
-          <div style="background:var(--card-bg); padding:14px; border-radius:14px; margin-bottom:10px; box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-            <b style="font-size:16px;">${u.name}</b> (${u.phone})<br/>
-            <small>Email: ${u.email}</small><br/>
-            <small>Location: ${u.address}</small><br/>
-            <span style="font-weight:600; color:var(--primary);">Weight: ${u.weight}kg | Height: ${u.height}cm</span>
+          <div style="background:var(--card-bg); padding:14px; border-radius:16px; margin-bottom:12px; box-shadow:0 2px 6px rgba(0,0,0,0.06);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <b style="font-size:16px;">${u.name}</b>
+              <span style="font-size:11px; padding:3px 8px; border-radius:8px; background:${active ? '#28a745' : '#dc3545'}; color:white; font-weight:bold;">${active ? 'Active' : 'Locked'}</span>
+            </div>
+            <small style="color:gray;">${u.phone} | ${u.email}</small><br/>
+            <button onclick="toggleClientAccess('${u.email}', ${!active})" style="background:${active ? '#6c757d' : '#28a745'}; padding:6px 12px; font-size:12px; width:auto; margin-top:8px;">
+              ${active ? 'Revoke Access' : '✓ Grant Batch Access (₹500 Paid)'}
+            </button>
           </div>
         `;
       });
     }
 
-    // Navigation & UI Helpers
+    async function toggleClientAccess(email, status) {
+      await db.collection("clients").doc(email).update({ hasAccess: status });
+      alert(`Client access updated!`);
+      showClientsList();
+    }
+
+    // UI Navigation
     function switchTab(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -483,8 +618,9 @@
 
     function openDrawer() { document.getElementById('sideDrawer').style.display = 'block'; }
     function closeDrawer() { document.getElementById('sideDrawer').style.display = 'none'; }
-    function openWhatsApp() { window.open("https://wa.me/918082528311?text=Hello%20Kulbeer%2C%20I%20have%20a%20query%20regarding%20the%20fitness%20classes", "_blank"); }
+    function openWhatsApp() { window.open("https://wa.me/918082528311?text=Hello%20Kulbeer%2C%20I%20have%20a%20query%20about%20fitness%20classes", "_blank"); }
     function toggleTheme() { document.body.classList.toggle('dark'); }
   </script>
 </body>
 </html>
+                  
